@@ -8,14 +8,16 @@
  * @copyright 2010 SkeekS
  * @date 10.09.2015
  */
+
 namespace yii\web;
+
 use skeeks\cms\backend\BackendComponent;
 
 /**
- * @property BackendComponent    $cmsToolbar
-
+ * @property BackendComponent $cmsToolbar
  * Class Application
  * @package yii\web
  */
 class Application
-{}
+{
+}

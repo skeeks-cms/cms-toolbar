@@ -5,6 +5,7 @@
  * @copyright (c) 2010 SkeekS
  * @date 14.11.2017
  */
+
 namespace skeeks\cms\toolbar;
 
 /**
@@ -41,6 +42,7 @@ class CmsToolbarPanel extends Component
      * @since 2.0.10
      */
     protected $error;
+
     /**
      * @return string name of the panel
      */
@@ -48,6 +50,7 @@ class CmsToolbarPanel extends Component
     {
         return '';
     }
+
     /**
      * @return string content that is displayed at debug toolbar
      */
@@ -55,6 +58,7 @@ class CmsToolbarPanel extends Component
     {
         return '';
     }
+
     /**
      * @return string content that is displayed in debugger detail view
      */
@@ -62,6 +66,7 @@ class CmsToolbarPanel extends Component
     {
         return '';
     }
+
     /**
      * Saves data to be later used in debugger detail view.
      * This method is called on every page where debugger is enabled.
@@ -72,6 +77,7 @@ class CmsToolbarPanel extends Component
     {
         return null;
     }
+
     /**
      * Loads data into the panel
      *
@@ -91,6 +97,7 @@ class CmsToolbarPanel extends Component
     {
         $this->error = $error;
     }
+
     /**
      * @return FlattenException|null
      * @since 2.0.10
@@ -99,6 +106,7 @@ class CmsToolbarPanel extends Component
     {
         return $this->error;
     }
+
     /**
      * @return bool
      * @since 2.0.10
@@ -107,6 +115,7 @@ class CmsToolbarPanel extends Component
     {
         return $this->error !== null;
     }
+
     /**
      * Is the panel enabled?
      * @return bool
