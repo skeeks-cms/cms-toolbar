@@ -69,7 +69,7 @@ $clientOptionsJson = \yii\helpers\Json::encode($clientOptions);
 
         <?
             $clearCacheOptions = \yii\helpers\Json::encode([
-                'backend' => UrlHelper::construct(['/admin/clear/index'])->enableAdmin()->toString()
+                'backend' => UrlHelper::construct(['/cms/admin-clear/index'])->enableAdmin()->toString()
             ]);
 
         $this->registerJs(<<<JS

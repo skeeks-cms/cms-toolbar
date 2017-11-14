@@ -278,7 +278,7 @@ JS
             CmsToolbarFancyboxAsset::register($view);
         }
 
-        echo $view->render('@skeeks/cms/toolbar/cms-toolbar', [
+        echo $view->render('@skeeks/cms/toolbar/views/cms-toolbar', [
             'clientOptions'     => $clientOptions,
             'editUrl'           => $this->editUrl,
             'urlUserEdit'       => $urlUserEdit,
