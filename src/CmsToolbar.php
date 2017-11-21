@@ -163,7 +163,7 @@ JS
                 );
                 $e->output = Html::tag('div', $e->output,
                     [
-                        'class' => 'skeeks-cms-toolbar-edit-view-block',
+                        'class' => 'sx-cms-toolbar-edit-view-block',
                         'id' => $id,
                         'title' => "Двойной клик по блоку откроек окно управлния настройками",
                         'data' =>
@@ -251,15 +251,15 @@ JS
                         'color' => $this->infoblockEditBorderColor
                     ]
             ],
-            'container-id' => 'skeeks-cms-toolbar',
-            'container-min-id' => 'skeeks-cms-toolbar-min',
+            'container-id' => 'sx-cms-toolbar',
+            'container-min-id' => 'sx-cms-toolbar-min',
             'isOpen' => (bool)($this->isOpen == Cms::BOOL_Y),
             'backend-url-triggerEditWidgets' => UrlHelper::construct('cms/toolbar/trigger-edit-widgets')->enableAdmin()->toString(),
             'backend-url-triggerEditViewFiles' => UrlHelper::construct('cms/toolbar/trigger-edit-view-files')->enableAdmin()->toString(),
             'backend-url-triggerIsOpen' => UrlHelper::construct('cms/toolbar/trigger-is-open')->enableAdmin()->toString()
         ];
 
-        //echo '<div id="skeeks-cms-toolbar" style="display:none"></div>';
+        //echo '<div id="sx-cms-toolbar" style="display:none"></div>';
 
         /* @var $view View */
         $view = $event->sender;
