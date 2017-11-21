@@ -17,3 +17,14 @@
     max-height: 35px;
     max-width: 35px;
 }
+
+.sx-cms-toolbar__title {
+    padding: 0px;
+    padding-right: 5px;
+    padding-left: 5px;
+    background: #2a2b2a;
+}
+.sx-cms-toolbar__title img{
+    max-height: 40px;
+    max-width: 40px;
+}

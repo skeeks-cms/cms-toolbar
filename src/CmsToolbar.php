@@ -75,6 +75,12 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
     public $infoblockEditBorderColor = "red";
 
 
+    /**
+     * @var array|CmsToolbarPanel[]
+     */
+    public $panels = [];
+
+
     public function rules()
     {
         return ArrayHelper::merge(parent::rules(), [
@@ -144,6 +150,10 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
     {
         parent::init();
 
+        if (Yii::$app instanceof \yii\web\Application) {
+            $this->initPanels();
+        }
+
         \Yii::$app->view->on(View::EVENT_AFTER_RENDER, function (ViewEvent $e) {
             if (\Yii::$app->controller instanceof BackendController) {
                 return false;
@@ -181,6 +191,47 @@ JS
         });
     }
 
+    /**
+     * Initializes panels.
+     */
+    protected function initPanels()
+    {
+        // merge custom panels and core panels so that they are ordered mainly by custom panels
+        if (empty($this->panels)) {
+            $this->panels = $this->corePanels();
+        } else {
+            $corePanels = $this->corePanels();
+            foreach ($corePanels as $id => $config) {
+                if (isset($this->panels[$id])) {
+                    unset($corePanels[$id]);
+                }
+            }
+            $this->panels = array_filter(array_merge($corePanels, $this->panels));
+        }
+
+        foreach ($this->panels as $id => $config) {
+            if (is_string($config)) {
+                $config = ['class' => $config];
+            }
+            $config['id'] = $id;
+            $this->panels[$id] = Yii::createObject($config);
+            if ($this->panels[$id] instanceof CmsToolbarPanel && !$this->panels[$id]->isEnabled()) {
+                unset($this->panels[$id]);
+            }
+        }
+    }
+
+
+    /**
+     * @return array default set of panels
+     */
+    protected function corePanels()
+    {
+        return [
+            'config' => ['class' => 'skeeks\cms\toolbar\panels\ConfigPanel'],
+            'admin' => ['class' => 'skeeks\cms\toolbar\panels\AdminPanel'],
+        ];
+    }
 
     /**
      * @inheritdoc
@@ -270,6 +321,7 @@ JS
         }
 
         echo $view->render('@skeeks/cms/toolbar/views/cms-toolbar', [
+            'panels' => $this->panels,
             'clientOptions' => $clientOptions,
             'editUrl' => $this->editUrl,
             'urlUserEdit' => $urlUserEdit,

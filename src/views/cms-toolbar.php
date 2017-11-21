@@ -1,12 +1,12 @@
 <?php
 /**
  * @author Semenov Alexander <semenov@skeeks.com>
- * @link http://skeeks.com/
- * @copyright 2010 SkeekS (СкикС)
- * @date 20.03.2015
+ * @link https://skeeks.com/
+ * @copyright (c) 2010 SkeekS
+ * @date 22.11.2017
  */
-
 /* @var $this yii\web\View */
+/* @var $panels \skeeks\cms\toolbar\CmsToolbarPanel[] */
 
 use skeeks\cms\helpers\UrlHelper;
 
@@ -17,28 +17,25 @@ $clientOptionsJson = \yii\helpers\Json::encode($clientOptions);
         <div class="sx-cms-toolbar__bar">
             <div class="sx-cms-toolbar__block sx-cms-toolbar__title">
                 <a href="<?= \Yii::$app->cms->descriptor->homepage; ?>"
-                   title="<?= \Yii::t('skeeks/cms', 'The current version {cms} ', ['cms' => 'SkeekS SMS'],
+                   title="<?= \Yii::t('skeeks/toolbar', 'The current version {cms} ', ['cms' => 'SkeekS SMS'],
                        \Yii::$app->admin->languageCode) ?> <?= \Yii::$app->cms->descriptor->version; ?>" target="_blank">
-                    <img width="29" height="30" alt="" src="<?= \Yii::$app->cms->logo(); ?>">
+                    <img alt="" src="<?= \Yii::$app->cms->logo(); ?>">
                     <!--<span class="label"><?/*= \Yii::$app->cms->descriptor->version; */?></span>-->
                 </a>
             </div>
 
-            <? if (\Yii::$app->user->can(\skeeks\cms\rbac\CmsManager::PERMISSION_ADMIN_ACCESS)) : ?>
-                <div class="sx-cms-toolbar__block">
-                    <a href="<?= \yii\helpers\Url::to(['/admin/index']); ?>"
-                       title="<?= \Yii::t('skeeks/cms', 'Go to the administration panel', [],
-                           \Yii::$app->admin->languageCode) ?>"><span class="label label-info"><?= \Yii::t('skeeks/cms',
-                                'Administration', [], \Yii::$app->admin->languageCode) ?></span></a>
-                </div>
-            <? endif; ?>
+            <?php foreach ($panels as $panel): ?>
+                <? if ($panel->isEnabled()) : ?>
+                    <?= $panel->getSummary() ?>
+                <? endif; ?>
+            <?php endforeach; ?>
 
 
             <? if (\Yii::$app->user->can('cms/admin-settings')) : ?>
                 <div class="sx-cms-toolbar__block">
                     <a onclick="new sx.classes.toolbar.Dialog('<?= $urlSettings; ?>'); return false;"
                        href="<?= $urlSettings; ?>" title="<?= \Yii::t('skeeks/cms', 'Managing project settings', [],
-                        \Yii::$app->admin->languageCode) ?>"><span class="label label-info"><?= \Yii::t('skeeks/cms',
+                        \Yii::$app->admin->languageCode) ?>"><span class="sx-cms-toolbar__label sx-cms-toolbar__label_info"><?= \Yii::t('skeeks/cms',
                                 'Project settings', [], \Yii::$app->admin->languageCode) ?></span></a>
                 </div>
             <? endif; ?>
@@ -49,7 +46,7 @@ $clientOptionsJson = \yii\helpers\Json::encode($clientOptions);
                    title="<?= \Yii::t('skeeks/cms', 'It is you, go to edit your data', [],
                        \Yii::$app->admin->languageCode) ?>">
                     <img src="<?= \skeeks\cms\helpers\Image::getSrc(\Yii::$app->user->identity->avatarSrc); ?>"/>
-                    <span class="label label-info"><?= \Yii::$app->user->identity->displayName; ?></span>
+                    <span class="sx-cms-toolbar__label sx-cms-toolbar__label_info"><?= \Yii::$app->user->identity->displayName; ?></span>
                 </a>
                 <!--<a href="<? /*= $urlEditModel; */ ?>" onclick="new sx.classes.toolbar.Dialog('<? /*= $urlEditModel; */ ?>'); return false;" title="Выход">
                  <span class="label">Выход</span>
@@ -121,7 +118,7 @@ JS
                     <a href="#" onclick="sx.ClearCache.execute(); return false;"
                        title="<?= \Yii::t('skeeks/cms', 'Clear cache and temporary files', [],
                            \Yii::$app->admin->languageCode) ?>">
-                        <span class="label label-info"><?= \Yii::t('skeeks/cms', 'Clear cache', [],
+                        <span class="sx-cms-toolbar__label sx-cms-toolbar__label_info"><?= \Yii::t('skeeks/cms', 'Clear cache', [],
                                 \Yii::$app->admin->languageCode) ?></span>
                     </a>
                     <span></span>
@@ -129,6 +126,15 @@ JS
             <? endif; ?>
 
 
+
+
+            <div class="sx-cms-toolbar__block_last">
+    
+            </div>
+            <a class="sx-cms-toolbar__external" href="#" target="_blank">
+                <span class="sx-cms-toolbar__external-icon"></span>
+            </a>
+                
             <span class="sx-cms-toolbar__toggle" onclick="sx.Toolbar.toggle(); return false;">
                 <span class="sx-cms-toolbar__toggle-icon"></span>
             </span>

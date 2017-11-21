@@ -39,7 +39,7 @@
         {
             var self = this;
 
-            _.delay(function() {
+            /*_.delay(function() {
                 if (self.getWrapper().is(":visible"))
                 {
                     $('html').css('margin-top', self.getWrapper().height());
@@ -47,7 +47,7 @@
                 {
                     $('html').css('margin-top', 0);
                 }
-            }, 2000);
+            }, 350);*/
 
         }
 
