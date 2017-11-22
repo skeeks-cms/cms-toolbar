@@ -16,13 +16,14 @@
 
         show: function()
         {
-            this.getWrapper().show();
+            this.getWrapper().addClass('sx-cms-toolbar_active');
             this.update();
         },
 
         hide: function()
         {
-            this.getWrapper().hide();
+            //this.getWrapper().hide();
+            this.getWrapper().removeClass('sx-cms-toolbar_active');
             this.update();
         },
 
@@ -36,13 +37,18 @@
 
         update: function()
         {
-            if (this.getWrapper().is(":visible"))
-            {
-                $('html').css('margin-top', this.getWrapper().height());
-            } else
-            {
-                $('html').css('margin-top', 0);
-            }
+            var self = this;
+
+            /*_.delay(function() {
+                if (self.getWrapper().is(":visible"))
+                {
+                    $('html').css('margin-top', self.getWrapper().height());
+                } else
+                {
+                    $('html').css('margin-top', 0);
+                }
+            }, 350);*/
+
         }
 
     });
@@ -68,16 +74,27 @@
 
             _.defer(function()
             {
-                if (self.get('isOpen', false))
+                /*if (self.get('isOpen', false))
                 {
                     self.Full.update();
-                }
+                }*/
             });
+
+        },
+
+        toggle: function() {
+            if (this.get('isOpen') === true) {
+                this.close();
+            } else {
+                this.open();
+            }
+
+            return this;
         },
 
         open: function()
         {
-            this.Min.hide();
+            //this.Min.hide();
             this.Full.show();
 
             this.set('isOpen', true);
@@ -87,7 +104,7 @@
 
         close: function()
         {
-            this.Min.show();
+            //this.Min.show();
             this.Full.hide();
 
             this.set('isOpen', false);

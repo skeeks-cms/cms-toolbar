@@ -9,31 +9,22 @@
 namespace skeeks\cms\toolbar;
 
 use skeeks\cms\actions\ViewModelAction;
-use skeeks\cms\toolbar\assets\CmsToolbarAsset;
-use skeeks\cms\toolbar\assets\CmsToolbarAssets;
-use skeeks\cms\toolbar\assets\CmsToolbarFancyboxAsset;
 use skeeks\cms\backend\BackendComponent;
 use skeeks\cms\backend\BackendController;
 use skeeks\cms\components\Cms;
 use skeeks\cms\helpers\UrlHelper;
-use skeeks\cms\models\CmsComponentSettings;
-use skeeks\cms\models\CmsContentElement;
 use skeeks\cms\models\helpers\Tree;
-use skeeks\cms\models\User;
-use skeeks\cms\modules\admin\controllers\AdminController;
-use skeeks\cms\modules\admin\controllers\AdminModelEditorController;
 use skeeks\cms\rbac\CmsManager;
+use skeeks\cms\toolbar\assets\CmsToolbarAsset;
+use skeeks\cms\toolbar\assets\CmsToolbarAssets;
+use skeeks\cms\toolbar\assets\CmsToolbarFancyboxAsset;
+use Yii;
 use yii\base\BootstrapInterface;
 use yii\base\ViewEvent;
-use yii\db\Exception;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use yii\helpers\Json;
-use yii\helpers\Url;
 use yii\web\Application;
 use yii\web\View;
-
-use \Yii;
 use yii\widgets\ActiveForm;
 
 /**
@@ -43,17 +34,6 @@ use yii\widgets\ActiveForm;
 class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterface
 {
     /**
-     * Можно задать название и описание компонента
-     * @return array
-     */
-    static public function descriptorConfig()
-    {
-        return array_merge(parent::descriptorConfig(), [
-            'name' => 'Панель быстрого управления',
-        ]);
-    }
-
-    /**
      * @var array the list of IPs that are allowed to access this module.
      * Each array element represents a single IP filter which can be either an IP address
      * or an address with wildcard (e.g. 192.168.0.*) to represent a network segment.
@@ -61,19 +41,35 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
      * by localhost.
      */
     public $allowedIPs = ['*'];
-
-
     public $infoblocks = [];
-
     public $editWidgets = Cms::BOOL_N;
     public $editViewFiles = Cms::BOOL_N;
-
     public $isOpen = Cms::BOOL_N;
     public $enabled = 1;
     public $enableFancyboxWindow = 0;
-
     public $infoblockEditBorderColor = "red";
+    /**
+     * @var array|CmsToolbarPanel[]
+     */
+    public $panels = [];
+    public $viewFiles = [];
+    public $inited = false;
+    /**
+     * @deprecated
+     * @var string
+     */
+    public $editUrl = "";
 
+    /**
+     * Можно задать название и описание компонента
+     * @return array
+     */
+    static public function descriptorConfig()
+    {
+        return array_merge(parent::descriptorConfig(), [
+            'name' => \Yii::t('skeeks/toolbar', 'Quick control panel'),
+        ]);
+    }
 
     public function rules()
     {
@@ -137,50 +133,63 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
         echo $form->fieldSetEnd();
     }
 
-
-    public $viewFiles = [];
-
     public function init()
     {
         parent::init();
 
-        \Yii::$app->view->on(View::EVENT_AFTER_RENDER, function (ViewEvent $e) {
-            if (\Yii::$app->controller instanceof BackendController) {
-                return false;
-            }
-
-            if (\Yii::$app->cmsToolbar->editViewFiles == Cms::BOOL_Y && \Yii::$app->cmsToolbar->enabled && \Yii::$app->user->can(CmsManager::PERMISSION_EDIT_VIEW_FILES)) {
-                $id = "sx-view-render-md5" . md5($e->viewFile);
-                if (in_array($id, $this->viewFiles)) {
-                    return;
-                }
-
-                $this->viewFiles[$id] = $id;
-
-                $e->sender->registerJs(<<<JS
-new sx.classes.toolbar.EditViewBlock({'id' : '{$id}'});
-JS
-                );
-                $e->output = Html::tag('div', $e->output,
-                    [
-                        'class' => 'skeeks-cms-toolbar-edit-view-block',
-                        'id' => $id,
-                        'title' => "Двойной клик по блоку откроек окно управлния настройками",
-                        'data' =>
-                            [
-                                'id' => $id,
-                                'config-url' => \skeeks\cms\backend\helpers\BackendUrlHelper::createByParams(['/cms/admin-tools/view-file-edit'])
-                                    ->merge([
-                                        "root-file" => $e->viewFile
-                                    ])
-                                    ->enableEmptyLayout()
-                                    ->url
-                            ]
-                    ]);
-            }
-        });
+        if (Yii::$app instanceof \yii\web\Application) {
+            $this->initPanels();
+        }
     }
 
+    /**
+     * Initializes panels.
+     */
+    protected function initPanels()
+    {
+        // merge custom panels and core panels so that they are ordered mainly by custom panels
+        if (empty($this->panels)) {
+            $this->panels = $this->corePanels();
+        } else {
+            $corePanels = $this->corePanels();
+            foreach ($corePanels as $id => $config) {
+                if (isset($this->panels[$id])) {
+                    unset($corePanels[$id]);
+                }
+            }
+            $this->panels = array_filter(array_merge($corePanels, $this->panels));
+        }
+
+        foreach ($this->panels as $id => $config) {
+            if (is_string($config)) {
+                $config = ['class' => $config];
+            }
+            $config['id'] = $id;
+            $this->panels[$id] = Yii::createObject($config);
+            if (!$this->panels[$id] instanceof CmsToolbarPanel
+                //&& !$this->panels[$id]->isEnabled()
+            ) {
+                unset($this->panels[$id]);
+            }
+        }
+    }
+
+    /**
+     * @return array default set of panels
+     */
+    protected function corePanels()
+    {
+        return [
+            'config' => ['class' => 'skeeks\cms\toolbar\panels\ConfigPanel'],
+            'admin' => ['class' => 'skeeks\cms\toolbar\panels\AdminPanel'],
+            'admin-settings' => ['class' => 'skeeks\cms\toolbar\panels\AdminSettingsPanel'],
+            'cache' => ['class' => 'skeeks\cms\toolbar\panels\CachePanel'],
+            'user' => ['class' => 'skeeks\cms\toolbar\panels\UserPanel'],
+            'widget' => ['class' => 'skeeks\cms\toolbar\panels\WidgetPanel'],
+            'template' => ['class' => 'skeeks\cms\toolbar\panels\TemplatePanel'],
+            'edit-url' => ['class' => 'skeeks\cms\toolbar\panels\EditUrlPanel'],
+        ];
+    }
 
     /**
      * @inheritdoc
@@ -193,7 +202,49 @@ JS
         });
     }
 
-    public $inited = false;
+    /**
+     * Renders mini-toolbar at the end of page body.
+     *
+     * @param \yii\base\Event $event
+     */
+    public function renderToolbar($event)
+    {
+        $this->initEnabled();
+
+        if (!$this->enabled) {
+            return;
+        }
+
+        $clientOptions = [
+            'infoblockSettings' => [
+                'border' =>
+                    [
+                        'color' => $this->infoblockEditBorderColor
+                    ]
+            ],
+            'container-id' => 'sx-cms-toolbar',
+            'container-min-id' => 'sx-cms-toolbar-min',
+            'isOpen' => (bool)($this->isOpen == Cms::BOOL_Y),
+            'backend-url-triggerEditWidgets' => UrlHelper::construct('cms/toolbar/trigger-edit-widgets')->enableAdmin()->toString(),
+            'backend-url-triggerEditViewFiles' => UrlHelper::construct('cms/toolbar/trigger-edit-view-files')->enableAdmin()->toString(),
+            'backend-url-triggerIsOpen' => UrlHelper::construct('cms/toolbar/trigger-is-open')->enableAdmin()->toString()
+        ];
+
+        //echo '<div id="sx-cms-toolbar" style="display:none"></div>';
+
+        /* @var $view View */
+        $view = $event->sender;
+        CmsToolbarAsset::register($view);
+
+        if ($this->enableFancyboxWindow) {
+            CmsToolbarFancyboxAsset::register($view);
+        }
+
+        echo $view->render('@skeeks/cms/toolbar/views/cms-toolbar', [
+            'panels' => $this->panels,
+            'clientOptions' => $clientOptions,
+        ]);
+    }
 
     /**
      * Установка проверок один раз.
@@ -218,65 +269,6 @@ JS
             $this->enabled = false;
             return;
         }
-    }
-
-    /**
-     * @var string
-     */
-    public $editUrl = "";
-
-
-    /**
-     * Renders mini-toolbar at the end of page body.
-     *
-     * @param \yii\base\Event $event
-     */
-    public function renderToolbar($event)
-    {
-        $this->initEnabled();
-
-        if (!$this->enabled) {
-            return;
-        }
-
-        $urlUserEdit = \skeeks\cms\backend\helpers\BackendUrlHelper::createByParams(['/cms/admin-profile/update'])
-            ->enableEmptyLayout()
-            ->url;
-
-
-        $clientOptions = [
-            'infoblockSettings' => [
-                'border' =>
-                    [
-                        'color' => $this->infoblockEditBorderColor
-                    ]
-            ],
-            'container-id' => 'skeeks-cms-toolbar',
-            'container-min-id' => 'skeeks-cms-toolbar-min',
-            'isOpen' => (bool)($this->isOpen == Cms::BOOL_Y),
-            'backend-url-triggerEditWidgets' => UrlHelper::construct('cms/toolbar/trigger-edit-widgets')->enableAdmin()->toString(),
-            'backend-url-triggerEditViewFiles' => UrlHelper::construct('cms/toolbar/trigger-edit-view-files')->enableAdmin()->toString(),
-            'backend-url-triggerIsOpen' => UrlHelper::construct('cms/toolbar/trigger-is-open')->enableAdmin()->toString()
-        ];
-
-        //echo '<div id="skeeks-cms-toolbar" style="display:none"></div>';
-
-        /* @var $view View */
-        $view = $event->sender;
-        CmsToolbarAsset::register($view);
-
-        if ($this->enableFancyboxWindow) {
-            CmsToolbarFancyboxAsset::register($view);
-        }
-
-        echo $view->render('@skeeks/cms/toolbar/views/cms-toolbar', [
-            'clientOptions' => $clientOptions,
-            'editUrl' => $this->editUrl,
-            'urlUserEdit' => $urlUserEdit,
-            'urlSettings' => \skeeks\cms\backend\helpers\BackendUrlHelper::createByParams(['/cms/admin-settings'])
-                ->enableEmptyLayout()
-                ->url
-        ]);
     }
 
     /**

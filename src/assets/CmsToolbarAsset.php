@@ -19,6 +19,8 @@ class CmsToolbarAsset extends AssetBundle
     public $sourcePath = '@skeeks/cms/toolbar/assets/src';
 
     public $css = [
+        'old-toolbar.css',
+        'yii-debug-toolbar.css',
         'toolbar.css',
     ];
 

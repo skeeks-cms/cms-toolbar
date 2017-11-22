@@ -1,0 +1,23 @@
+<?php
+/**
+ * @author Semenov Alexander <semenov@skeeks.com>
+ * @link https://skeeks.com/
+ * @copyright (c) 2010 SkeekS
+ * @date 22.11.2017
+ */
+/* @var $this yii\web\View */
+/* @var $panel \skeeks\cms\toolbar\pnales\ConfigPanel */
+?>
+<div class="sx-cms-toolbar__block">
+    <a href="<?= \yii\helpers\Url::to(['/admin/index']); ?>"
+       title="<?= \Yii::t('skeeks/toolbar', 'Go to the administration panel', [],
+           \Yii::$app->admin->languageCode) ?>">
+        <div class="sx-cms-toolbar__label sx-cms-toolbar__label_info">
+            <img src="data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMS4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDQ4NiA0ODYiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQ4NiA0ODY7IiB4bWw6c3BhY2U9InByZXNlcnZlIiB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxNnB4Ij4KPGc+Cgk8cGF0aCBpZD0iWE1MSURfNDlfIiBkPSJNMjk4LjQsNDI0Ljd2MTQuMmMwLDExLjMtOC4zLDIwLjctMTkuMSwyMi4zbC0zLjUsMTIuOWMtMS45LDctOC4yLDExLjktMTUuNSwxMS45aC0zNC43ICAgYy03LjMsMC0xMy42LTQuOS0xNS41LTExLjlsLTMuNC0xMi45Yy0xMC45LTEuNy0xOS4yLTExLTE5LjItMjIuNHYtMTQuMmMwLTcuNiw2LjEtMTMuNywxMy43LTEzLjdoODMuNSAgIEMyOTIuMyw0MTEsMjk4LjQsNDE3LjEsMjk4LjQsNDI0Ljd6IE0zNjIuNywyMzMuM2MwLDMyLjMtMTIuOCw2MS42LTMzLjYsODMuMWMtMTUuOCwxNi40LTI2LDM3LjMtMjkuNCw1OS42ICAgYy0xLjUsOS42LTkuOCwxNi43LTE5LjYsMTYuN2gtNzQuM2MtOS43LDAtMTguMS03LTE5LjUtMTYuNmMtMy41LTIyLjMtMTMuOC00My41LTI5LjYtNTkuOGMtMjAuNC0yMS4yLTMzLjEtNTAtMzMuNC04MS43ICAgYy0wLjctNjYuNiw1Mi4zLTEyMC41LDExOC45LTEyMUMzMDguNywxMTMuMSwzNjIuNywxNjYuOSwzNjIuNywyMzMuM3ogTTI1Ni41LDE2MC44YzAtNy40LTYtMTMuNS0xMy41LTEzLjUgICBjLTQ3LjYsMC04Ni40LDM4LjctODYuNCw4Ni40YzAsNy40LDYsMTMuNSwxMy41LDEzLjVjNy40LDAsMTMuNS02LDEzLjUtMTMuNWMwLTMyLjgsMjYuNy01OS40LDU5LjQtNTkuNCAgIEMyNTAuNSwxNzQuMywyNTYuNSwxNjguMywyNTYuNSwxNjAuOHogTTI0Myw3NC4zYzcuNCwwLDEzLjUtNiwxMy41LTEzLjVWMTMuNWMwLTcuNC02LTEzLjUtMTMuNS0xMy41cy0xMy41LDYtMTMuNSwxMy41djQ3LjMgICBDMjI5LjUsNjguMywyMzUuNiw3NC4zLDI0Myw3NC4zeiBNODQuMSwyMzMuMmMwLTcuNC02LTEzLjUtMTMuNS0xMy41SDIzLjNjLTcuNCwwLTEzLjUsNi0xMy41LDEzLjVjMCw3LjQsNiwxMy41LDEzLjUsMTMuNWg0Ny4zICAgQzc4LjEsMjQ2LjcsODQuMSwyNDAuNyw4NC4xLDIzMy4yeiBNNDYyLjcsMjE5LjdoLTQ3LjNjLTcuNCwwLTEzLjUsNi0xMy41LDEzLjVjMCw3LjQsNiwxMy41LDEzLjUsMTMuNWg0Ny4zICAgYzcuNCwwLDEzLjUtNiwxMy41LTEzLjVDNDc2LjIsMjI1LjgsNDcwLjIsMjE5LjcsNDYyLjcsMjE5Ljd6IE0xMTEuNiwzNDUuNmwtMzMuNSwzMy41Yy01LjMsNS4zLTUuMywxMy44LDAsMTkuMSAgIGMyLjYsMi42LDYuMSwzLjksOS41LDMuOXM2LjktMS4zLDkuNS0zLjlsMzMuNS0zMy41YzUuMy01LjMsNS4zLTEzLjgsMC0xOS4xQzEyNS40LDM0MC4zLDExNi44LDM0MC4zLDExMS42LDM0NS42eiBNMzY0LjksMTI0LjggICBjMy40LDAsNi45LTEuMyw5LjUtMy45bDMzLjUtMzMuNWM1LjMtNS4zLDUuMy0xMy44LDAtMTkuMWMtNS4zLTUuMy0xMy44LTUuMy0xOS4xLDBsLTMzLjUsMzMuNWMtNS4zLDUuMy01LjMsMTMuOCwwLDE5LjEgICBDMzU4LDEyMy41LDM2MS40LDEyNC44LDM2NC45LDEyNC44eiBNMTExLjYsMTIwLjhjMi42LDIuNiw2LjEsMy45LDkuNSwzLjlzNi45LTEuMyw5LjUtMy45YzUuMy01LjMsNS4zLTEzLjgsMC0xOS4xTDk3LjEsNjguMiAgIGMtNS4zLTUuMy0xMy44LTUuMy0xOS4xLDBjLTUuMyw1LjMtNS4zLDEzLjgsMCwxOS4xTDExMS42LDEyMC44eiBNMzc0LjQsMzQ1LjZjLTUuMy01LjMtMTMuOC01LjMtMTkuMSwwYy01LjMsNS4zLTUuMywxMy44LDAsMTkuMSAgIGwzMy41LDMzLjVjMi42LDIuNiw2LjEsMy45LDkuNSwzLjlzNi45LTEuMyw5LjUtMy45YzUuMy01LjMsNS4zLTEzLjgsMC0xOS4xTDM3NC40LDM0NS42eiIgZmlsbD0iI0ZGRkZGRiIvPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+Cjwvc3ZnPgo="/>
+            <span class="sx-cms-toolbar__parent_hover_active">
+            <?= \Yii::t('skeeks/toolbar',
+                'Administration', [], \Yii::$app->admin->languageCode) ?>
+            </span>
+        </div>
+    </a>
+</div>

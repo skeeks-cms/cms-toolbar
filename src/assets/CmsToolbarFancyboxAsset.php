@@ -8,8 +8,6 @@
 
 namespace skeeks\cms\toolbar\assets;
 
-use skeeks\cms\base\AssetBundle;
-
 /**
  * Class CmsToolbarFancyboxAsset
  * @package skeeks\cms\toolbar\assets

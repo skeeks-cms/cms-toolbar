@@ -1,3 +1,23 @@
 <?php
-return
-    [];
+return [
+    'Configuration' => 'Конфигурация',
+    'Administration system' => 'Система администрирования',
+    'The current version {cms} ' => 'Текущая версия {cms}',
+    'Administration' => 'Администрирование',
+    'Go to the administration panel' => 'Перейти в панель управления',
+    'Managing project settings' => 'Управление настройками проекта',
+    'Project settings' => 'Настройки проекта',
+    'Go to edit your data' => 'Перейти к редактирования своих данных',
+    'Exit' => 'Выход',
+    'Settings' => 'Настройки',
+    'Cache management' => 'Управление кешем',
+    'Clear cache and temporary files' => 'Очистить кеш и временные файлы',
+    'Clear cache' => 'Очистить кеш',
+    'Widgets management' => 'Управление виджетами',
+    'Editing widgets' => 'Редактирование виджетов',
+    'Templates management' => 'Управление шаблонами',
+    'Editing view files' => 'Редактирование шаблонов',
+    'Edit' => 'Редактировать',
+    'Edit the current page' => 'Редактировать текущую страницу',
+    'Quick control panel' => 'Панель быстрого управления сайтом',
+];
