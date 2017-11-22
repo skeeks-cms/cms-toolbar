@@ -215,7 +215,9 @@ JS
             }
             $config['id'] = $id;
             $this->panels[$id] = Yii::createObject($config);
-            if ($this->panels[$id] instanceof CmsToolbarPanel && !$this->panels[$id]->isEnabled()) {
+            if (!$this->panels[$id] instanceof CmsToolbarPanel
+                //&& !$this->panels[$id]->isEnabled()
+            ) {
                 unset($this->panels[$id]);
             }
         }
@@ -230,6 +232,12 @@ JS
         return [
             'config' => ['class' => 'skeeks\cms\toolbar\panels\ConfigPanel'],
             'admin' => ['class' => 'skeeks\cms\toolbar\panels\AdminPanel'],
+            'admin-settings' => ['class' => 'skeeks\cms\toolbar\panels\AdminSettingsPanel'],
+            'cache' => ['class' => 'skeeks\cms\toolbar\panels\CachePanel'],
+            'user' => ['class' => 'skeeks\cms\toolbar\panels\UserPanel'],
+            'widget' => ['class' => 'skeeks\cms\toolbar\panels\WidgetPanel'],
+            'template' => ['class' => 'skeeks\cms\toolbar\panels\TemplatePanel'],
+            'edit-url' => ['class' => 'skeeks\cms\toolbar\panels\EditUrlPanel'],
         ];
     }
 
@@ -272,6 +280,7 @@ JS
     }
 
     /**
+     * @deprecated
      * @var string
      */
     public $editUrl = "";
@@ -289,11 +298,6 @@ JS
         if (!$this->enabled) {
             return;
         }
-
-        $urlUserEdit = \skeeks\cms\backend\helpers\BackendUrlHelper::createByParams(['/cms/admin-profile/update'])
-            ->enableEmptyLayout()
-            ->url;
-
 
         $clientOptions = [
             'infoblockSettings' => [
@@ -323,11 +327,6 @@ JS
         echo $view->render('@skeeks/cms/toolbar/views/cms-toolbar', [
             'panels' => $this->panels,
             'clientOptions' => $clientOptions,
-            'editUrl' => $this->editUrl,
-            'urlUserEdit' => $urlUserEdit,
-            'urlSettings' => \skeeks\cms\backend\helpers\BackendUrlHelper::createByParams(['/cms/admin-settings'])
-                ->enableEmptyLayout()
-                ->url
         ]);
     }
 

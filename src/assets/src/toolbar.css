@@ -28,3 +28,24 @@
     max-height: 40px;
     max-width: 40px;
 }
+
+.sx-cms-toolbar__label {
+    line-height: 22px;
+    padding: 4px 8px;
+}
+
+
+.sx-cms-toolbar__label input[type="checkbox"] {
+    margin: 0px;
+}
+
+.sx-cms-toolbar__parent_hover_active {
+    display: none;
+    transition: opacity 2s ease-out;
+    opacity: 0;
+}
+.sx-cms-toolbar__label:hover .sx-cms-toolbar__parent_hover_active {
+    opacity: 1;
+    display: inline;
+
+}
