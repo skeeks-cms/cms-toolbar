@@ -31,6 +31,7 @@ Configuration app
         'cmsToolbar' =>
         [
             'class' => 'skeeks\cms\toolbar\CmsToolbar',
+            'panels' => [],
         ],
 
         'i18n' => [
