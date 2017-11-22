@@ -9,31 +9,22 @@
 namespace skeeks\cms\toolbar;
 
 use skeeks\cms\actions\ViewModelAction;
-use skeeks\cms\toolbar\assets\CmsToolbarAsset;
-use skeeks\cms\toolbar\assets\CmsToolbarAssets;
-use skeeks\cms\toolbar\assets\CmsToolbarFancyboxAsset;
 use skeeks\cms\backend\BackendComponent;
 use skeeks\cms\backend\BackendController;
 use skeeks\cms\components\Cms;
 use skeeks\cms\helpers\UrlHelper;
-use skeeks\cms\models\CmsComponentSettings;
-use skeeks\cms\models\CmsContentElement;
 use skeeks\cms\models\helpers\Tree;
-use skeeks\cms\models\User;
-use skeeks\cms\modules\admin\controllers\AdminController;
-use skeeks\cms\modules\admin\controllers\AdminModelEditorController;
 use skeeks\cms\rbac\CmsManager;
+use skeeks\cms\toolbar\assets\CmsToolbarAsset;
+use skeeks\cms\toolbar\assets\CmsToolbarAssets;
+use skeeks\cms\toolbar\assets\CmsToolbarFancyboxAsset;
+use Yii;
 use yii\base\BootstrapInterface;
 use yii\base\ViewEvent;
-use yii\db\Exception;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use yii\helpers\Json;
-use yii\helpers\Url;
 use yii\web\Application;
 use yii\web\View;
-
-use \Yii;
 use yii\widgets\ActiveForm;
 
 /**
@@ -43,17 +34,6 @@ use yii\widgets\ActiveForm;
 class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterface
 {
     /**
-     * Можно задать название и описание компонента
-     * @return array
-     */
-    static public function descriptorConfig()
-    {
-        return array_merge(parent::descriptorConfig(), [
-            'name' => 'Панель быстрого управления',
-        ]);
-    }
-
-    /**
      * @var array the list of IPs that are allowed to access this module.
      * Each array element represents a single IP filter which can be either an IP address
      * or an address with wildcard (e.g. 192.168.0.*) to represent a network segment.
@@ -61,25 +41,35 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
      * by localhost.
      */
     public $allowedIPs = ['*'];
-
-
     public $infoblocks = [];
-
     public $editWidgets = Cms::BOOL_N;
     public $editViewFiles = Cms::BOOL_N;
-
     public $isOpen = Cms::BOOL_N;
     public $enabled = 1;
     public $enableFancyboxWindow = 0;
-
     public $infoblockEditBorderColor = "red";
-
-
     /**
      * @var array|CmsToolbarPanel[]
      */
     public $panels = [];
+    public $viewFiles = [];
+    public $inited = false;
+    /**
+     * @deprecated
+     * @var string
+     */
+    public $editUrl = "";
 
+    /**
+     * Можно задать название и описание компонента
+     * @return array
+     */
+    static public function descriptorConfig()
+    {
+        return array_merge(parent::descriptorConfig(), [
+            'name' => \Yii::t('skeeks/toolbar', 'Quick control panel'),
+        ]);
+    }
 
     public function rules()
     {
@@ -143,9 +133,6 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
         echo $form->fieldSetEnd();
     }
 
-
-    public $viewFiles = [];
-
     public function init()
     {
         parent::init();
@@ -153,42 +140,6 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
         if (Yii::$app instanceof \yii\web\Application) {
             $this->initPanels();
         }
-
-        \Yii::$app->view->on(View::EVENT_AFTER_RENDER, function (ViewEvent $e) {
-            if (\Yii::$app->controller instanceof BackendController) {
-                return false;
-            }
-
-            if (\Yii::$app->cmsToolbar->editViewFiles == Cms::BOOL_Y && \Yii::$app->cmsToolbar->enabled && \Yii::$app->user->can(CmsManager::PERMISSION_EDIT_VIEW_FILES)) {
-                $id = "sx-view-render-md5" . md5($e->viewFile);
-                if (in_array($id, $this->viewFiles)) {
-                    return;
-                }
-
-                $this->viewFiles[$id] = $id;
-
-                $e->sender->registerJs(<<<JS
-new sx.classes.toolbar.EditViewBlock({'id' : '{$id}'});
-JS
-                );
-                $e->output = Html::tag('div', $e->output,
-                    [
-                        'class' => 'sx-cms-toolbar-edit-view-block',
-                        'id' => $id,
-                        'title' => "Двойной клик по блоку откроек окно управлния настройками",
-                        'data' =>
-                            [
-                                'id' => $id,
-                                'config-url' => \skeeks\cms\backend\helpers\BackendUrlHelper::createByParams(['/cms/admin-tools/view-file-edit'])
-                                    ->merge([
-                                        "root-file" => $e->viewFile
-                                    ])
-                                    ->enableEmptyLayout()
-                                    ->url
-                            ]
-                    ]);
-            }
-        });
     }
 
     /**
@@ -223,7 +174,6 @@ JS
         }
     }
 
-
     /**
      * @return array default set of panels
      */
@@ -251,40 +201,6 @@ JS
             $app->getView()->on(View::EVENT_END_BODY, [$this, 'renderToolbar']);
         });
     }
-
-    public $inited = false;
-
-    /**
-     * Установка проверок один раз.
-     * Эти проверки могут быть запущены при отрисовке первого виджета.
-     */
-    public function initEnabled()
-    {
-        if ($this->inited) {
-            return;
-        }
-
-        if (!$this->enabled) {
-            return;
-        }
-
-        if (\Yii::$app->user->isGuest) {
-            $this->enabled = false;
-            return;
-        }
-
-        if (!$this->checkAccess() || Yii::$app->getRequest()->getIsAjax()) {
-            $this->enabled = false;
-            return;
-        }
-    }
-
-    /**
-     * @deprecated
-     * @var string
-     */
-    public $editUrl = "";
-
 
     /**
      * Renders mini-toolbar at the end of page body.
@@ -328,6 +244,31 @@ JS
             'panels' => $this->panels,
             'clientOptions' => $clientOptions,
         ]);
+    }
+
+    /**
+     * Установка проверок один раз.
+     * Эти проверки могут быть запущены при отрисовке первого виджета.
+     */
+    public function initEnabled()
+    {
+        if ($this->inited) {
+            return;
+        }
+
+        if (!$this->enabled) {
+            return;
+        }
+
+        if (\Yii::$app->user->isGuest) {
+            $this->enabled = false;
+            return;
+        }
+
+        if (!$this->checkAccess() || Yii::$app->getRequest()->getIsAjax()) {
+            $this->enabled = false;
+            return;
+        }
     }
 
     /**

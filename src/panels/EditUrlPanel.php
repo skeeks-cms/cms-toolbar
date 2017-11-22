@@ -38,6 +38,6 @@ class EditUrlPanel extends CmsToolbarPanel
      */
     public function isEnabled()
     {
-        return (bool) $this->toolbar->editUrl;
+        return (bool)$this->toolbar->editUrl;
     }
 }

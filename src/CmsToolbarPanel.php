@@ -7,12 +7,13 @@
  */
 
 namespace skeeks\cms\toolbar;
+
 use yii\base\Component;
 
 /**
  * @property string $name;
  * @property string $summary;
- * @property string $toolbar;
+ * @property CmsToolbar $toolbar;
  *
  * Class CmsToolbarPanel
  * @package skeeks\cms\toolbar
@@ -28,7 +29,8 @@ class CmsToolbarPanel extends Component
     /**
      * @return mixed|\skeeks\cms\backend\BackendComponent
      */
-    public function getToolbar() {
+    public function getToolbar()
+    {
         return \Yii::$app->cmsToolbar;
     }
 

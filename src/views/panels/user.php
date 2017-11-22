@@ -8,8 +8,8 @@
 /* @var $this yii\web\View */
 /* @var $panel \skeeks\cms\toolbar\pnales\UserPanel */
 $urlUserEdit = \skeeks\cms\backend\helpers\BackendUrlHelper::createByParams(['/cms/admin-profile/update'])
-            ->enableEmptyLayout()
-            ->url;
+    ->enableEmptyLayout()
+    ->url;
 ?>
 <div class="sx-cms-toolbar__block sx-profile">
     <a href="<?= $urlUserEdit; ?>"
@@ -18,7 +18,8 @@ $urlUserEdit = \skeeks\cms\backend\helpers\BackendUrlHelper::createByParams(['/c
            \Yii::$app->admin->languageCode) ?>">
 
         <div class="sx-cms-toolbar__label sx-cms-toolbar__label_info">
-            <img src="<?= \skeeks\cms\helpers\Image::getSrc(\Yii::$app->user->identity->avatarSrc); ?>" style="border: 1px solid silver; height: 16px;"/>
+            <img src="<?= \skeeks\cms\helpers\Image::getSrc(\Yii::$app->user->identity->avatarSrc); ?>"
+                 style="border: 1px solid silver; height: 16px;"/>
             <?= \Yii::$app->user->identity->displayName; ?>
         </div>
     </a>

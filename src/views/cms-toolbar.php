@@ -9,8 +9,6 @@
 
 /* @var $panels \skeeks\cms\toolbar\CmsToolbarPanel[] */
 
-use skeeks\cms\helpers\UrlHelper;
-
 $clientOptionsJson = \yii\helpers\Json::encode($clientOptions);
 
 ?>

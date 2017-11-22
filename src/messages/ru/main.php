@@ -19,4 +19,5 @@ return [
     'Editing view files' => 'Редактирование шаблонов',
     'Edit' => 'Редактировать',
     'Edit the current page' => 'Редактировать текущую страницу',
+    'Quick control panel' => 'Панель быстрого управления сайтом',
 ];

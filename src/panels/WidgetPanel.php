@@ -8,8 +8,11 @@
 
 namespace skeeks\cms\toolbar\panels;
 
+use skeeks\cms\backend\BackendController;
 use skeeks\cms\toolbar\CmsToolbarPanel;
 use Yii;
+use yii\base\ViewEvent;
+use yii\web\View;
 
 /**
  * Class WidgetPanel
@@ -17,6 +20,9 @@ use Yii;
  */
 class WidgetPanel extends CmsToolbarPanel
 {
+    public function init() {
+        parent::init();
+    }
     /**
      * @inheritdoc
      */
