@@ -34,13 +34,16 @@ class TemplatePanel extends CmsToolbarPanel
             }
 
             if ($this->toolbar->editViewFiles == Cms::BOOL_Y && $this->toolbar->enabled && $this->isEnabled()) {
-                $this->_view_files[] = $e->viewFile;
+
+                if (strpos($e->viewFile, \Yii::getAlias('@vendor')) !== false) {
+                    return;
+                }
 
                 $id = "sx-view-render-md5" . md5($e->viewFile);
                 if (in_array($id, $this->toolbar->viewFiles)) {
                     return;
                 }
-
+                $this->_view_files[] = $e->viewFile;
                 $this->toolbar->viewFiles[$id] = $id;
 
                 $e->sender->registerJs(<<<JS

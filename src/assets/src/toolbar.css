@@ -3,12 +3,13 @@
     right: 0;
     top: 0;
     margin: 0;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.33);
     /*width: auto;*/
 }
 
-.sx-cms-toolbar {
+/*.sx-cms-toolbar {
     overflow: hidden;
-}
+}*/
 
 .sx-cms-toolbar__block {
     max-height: 40px;
@@ -47,5 +48,4 @@
 .sx-cms-toolbar__label:hover .sx-cms-toolbar__parent_hover_active {
     opacity: 1;
     display: inline;
-
 }
