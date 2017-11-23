@@ -17,10 +17,10 @@ $clientOptionsJson = \yii\helpers\Json::encode($clientOptions);
          class="sx-cms-toolbar sx-cms-toolbar_position_top <?= \Yii::$app->cmsToolbar->isOpen == \skeeks\cms\components\Cms::BOOL_Y ? "sx-cms-toolbar_active" : "" ?>">
         <div class="sx-cms-toolbar__bar">
             <div class="sx-cms-toolbar__block sx-cms-toolbar__title">
-                <a href="<?= \Yii::$app->cms->descriptor->homepage; ?>"
-                   title="<?= \Yii::t('skeeks/toolbar', 'The current version {cms} ', ['cms' => 'SkeekS SMS'],
-                       \Yii::$app->admin->languageCode) ?> <?= \Yii::$app->cms->descriptor->version; ?>"
-                   target="_blank">
+                <a href="<?= \yii\helpers\Url::to(['/admin/index']); ?>"
+                   title="<?= \Yii::t('skeeks/toolbar', 'Go to the administration panel', [],
+           \Yii::$app->admin->languageCode) ?>"
+                   >
                     <img alt="" src="<?= \Yii::$app->cms->logo(); ?>">
                 </a>
             </div>

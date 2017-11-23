@@ -3,6 +3,7 @@ CHANGELOG
 
 1.0.0-beta.pre
 ---------------
+ * Mrgin top
  * Fixed css
  
 1.0.0-alpha2
