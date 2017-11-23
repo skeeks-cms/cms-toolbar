@@ -1,7 +1,7 @@
 CHANGELOG
 ==============
 
-1.0.0-beta.pre
+1.0.0-beta
 ---------------
  * Mrgin top
  * Fixed css
