@@ -244,14 +244,15 @@
 .sx-edit-view-block-controlls
 {
     position: fixed !important;
-    height: 23px !important;
+    /*height: 33px !important;*/
     display: none;
-    padding: 4px 4px 10px !important;
+    padding: 10px 10px 10px !important;
     color: white !important;
     background: black !important;
     overflow: hidden !important;
     z-index: 9999 !important;
     font-size: 12px !important;
+    cursor: pointer;
 }
 .sx-edit-view-block-controlls a
 {

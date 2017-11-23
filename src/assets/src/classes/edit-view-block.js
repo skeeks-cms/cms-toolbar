@@ -25,6 +25,10 @@
             this._createHiddenBorder()._createHiddenControlls();
             this.adjustWrapper();
 
+            $(window).ready(function() {
+                self.adjustWrapper();
+            });
+
             this.jWrapper.on("dblclick", function()
             {
                 self.goEdit();
@@ -206,7 +210,26 @@
         adjustWrapper : function()
         {
             var minHeight   = this.get('minHeight', 12);
-            var height      = this.jWrapper.height();
+            //var height      = this.jWrapper.height();
+            var wrapperHeight = this.jWrapper.height();
+            if (this.jWrapper.children().length) {
+                var height      = 0;
+                this.jWrapper.children().each(function() {
+                    if ($(this).attr('name') != 'callableData') {
+                        height = height + $(this).height();
+                    }
+                });
+            } else {
+                var height      = this.jWrapper.height();
+            }
+
+            if (wrapperHeight > height) {
+                height = wrapperHeight;
+            }
+
+
+
+
             if (height <= minHeight)
             {
                 this.jWrapper.addClass("skeeks-cms-toolbar-edit-view-block-empty");
@@ -262,7 +285,26 @@
          */
         _adjustBorders: function()
         {
-            var height  = this.jWrapper.height();
+
+            var wrapperHeight = this.jWrapper.height();
+
+            if (this.jWrapper.children().length) {
+                var height      = 0;
+                this.jWrapper.children().each(function() {
+                    if ($(this).attr('name') != 'callableData') {
+                        height = height + $(this).height();
+                    }
+                });
+            } else {
+                var height      = this.jWrapper.height();
+            }
+
+            if (wrapperHeight > height) {
+                height = wrapperHeight;
+            }
+
+
+            //var height  = this.jWrapper.height();
             var width   = this.jWrapper.width();
             var top     = this.jWrapper.offset().top - $(window).scrollTop();
             var left    = this.jWrapper.offset().left;

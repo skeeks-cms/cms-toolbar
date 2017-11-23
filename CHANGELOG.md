@@ -1,6 +1,10 @@
 CHANGELOG
 ==============
 
+1.0.0-beta3
+---------------
+ * Update edit lines
+ 
 1.0.0-beta2
 ---------------
  * Add animation
