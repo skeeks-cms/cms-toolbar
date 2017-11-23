@@ -34,6 +34,21 @@
             {
                 self.update();
             });
+            
+            
+            $(".sx-cms-toolbar__go_to_admin a").on('click', function() {
+                $('.sx-cms-toolbar').css('transition', '0.7s').css('top', '-50px'); 
+                $('html').css('margin-top', '50%');
+                $('html').css('opacity', '0.5');
+                
+                var link = $(this).attr('href');
+                _.delay(function() {
+                    $('html').css('background', '#000000cf');
+                    $('body').css('background', '#000000cf');
+                    location.href = link;
+                }, 200);
+                return false;
+            });
 
         },
 

@@ -26,10 +26,14 @@
 	padding-left: 5px;
 	background: #2a2b2a;
 }
+.sx-cms-toolbar__title:hover img {
+    transform: rotate(180deg);
+}
 
 .sx-cms-toolbar__title img {
 	max-height: 40px;
 	max-width: 40px;
+    transition: transform 0.7s;
 }
 
 .sx-cms-toolbar__label {
