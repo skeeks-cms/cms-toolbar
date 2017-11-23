@@ -1,10 +1,10 @@
 .sx-cms-toolbar_position_top {
-    position: fixed;
-    right: 0;
-    top: 0;
-    margin: 0;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.33);
-    /*width: auto;*/
+	position: fixed;
+	right: 0;
+	top: 0;
+	margin: 0;
+	box-shadow: 0 0 15px rgba(0, 0, 0, 0.33);
+	/*width: auto;*/
 }
 
 /*.sx-cms-toolbar {
@@ -12,40 +12,74 @@
 }*/
 
 .sx-cms-toolbar__block {
-    max-height: 40px;
+	max-height: 40px;
 }
+
 .sx-cms-toolbar__block img {
-    max-height: 35px;
-    max-width: 35px;
+	max-height: 35px;
+	max-width: 35px;
 }
 
 .sx-cms-toolbar__title {
-    padding: 0px;
-    padding-right: 5px;
-    padding-left: 5px;
-    background: #2a2b2a;
+	padding: 0px;
+	padding-right: 5px;
+	padding-left: 5px;
+	background: #2a2b2a;
 }
-.sx-cms-toolbar__title img{
-    max-height: 40px;
-    max-width: 40px;
+
+.sx-cms-toolbar__title img {
+	max-height: 40px;
+	max-width: 40px;
 }
 
 .sx-cms-toolbar__label {
-    line-height: 22px;
-    padding: 4px 8px;
+	line-height: 22px;
+	padding: 4px 8px;
 }
 
-
 .sx-cms-toolbar__label input[type="checkbox"] {
-    margin: 0px;
+	margin: 0px;
+	height: 12px;
 }
 
 .sx-cms-toolbar__parent_hover_active {
-    display: none;
-    transition: opacity 2s ease-out;
-    opacity: 0;
+	display: none;
+	transition: opacity 2s ease-out;
+	opacity: 0;
 }
+
 .sx-cms-toolbar__label:hover .sx-cms-toolbar__parent_hover_active {
-    opacity: 1;
-    display: inline;
+	opacity: 1;
+	display: inline;
+}
+
+.sx-cms-toolbar__dropdown .sx-cms-toolbar__dropdown_menu {
+	position: absolute;
+	list-style: none;
+	opacity: 0;
+	visibility: hidden;
+	padding: 0px;
+	background-color: rgba(92, 91, 87, 0.9);
+	-webkit-transition: opacity 600ms, visibility 600ms;
+	transition: opacity 600ms, visibility 600ms;
+	background: linear-gradient(to bottom, rgb(255, 255, 255) 0%, rgb(247, 247, 247) 100%);
+	border: 1px solid silver;
+	box-shadow: 0 0 15px rgba(0, 0, 0, 0.33);
+}
+
+.sx-cms-toolbar__dropdown .sx-cms-toolbar__dropdown_trigger {
+}
+
+.sx-cms-toolbar__dropdown .sx-cms-toolbar__dropdown_trigger:hover .sx-cms-toolbar__dropdown_menu {
+	visibility: visible;
+	opacity: 1;
+	z-index: 100000000;
+}
+
+.sx-cms-toolbar__dropdown .sx-cms-toolbar__dropdown_menu li:hover {
+	background-color: #eee;
+}
+
+.sx-cms-toolbar__dropdown .sx-cms-toolbar__dropdown_menu > li > a {
+	padding: 3px 20px;
 }

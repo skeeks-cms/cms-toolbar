@@ -7,36 +7,6 @@
  */
 /* @var $this yii\web\View */
 /* @var $panel \skeeks\cms\toolbar\panels\TemplatePanel */
-$this->registerCss(<<<CSS
-
-.sx-cms-toolbar__dropdown .sx-cms-toolbar__dropdown_menu {
-  position: absolute;
-  list-style: none;
-  opacity: 0;
-  visibility: hidden;
-  padding: 0px;
-  background-color: rgba(92, 91, 87, 0.9);
-  -webkit-transition: opacity 600ms, visibility 600ms;
-  transition: opacity 600ms, visibility 600ms;
-  background: linear-gradient(to bottom, rgb(255, 255, 255) 0%, rgb(247, 247, 247) 100%);
-  border: 1px solid silver;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.33);
-}
-.sx-cms-toolbar__dropdown .sx-cms-toolbar__dropdown_trigger {
-}
-.sx-cms-toolbar__dropdown .sx-cms-toolbar__dropdown_trigger:hover .sx-cms-toolbar__dropdown_menu {
-  visibility: visible;
-  opacity: 1;
-  z-index: 100000000;
-}
-.sx-cms-toolbar__dropdown .sx-cms-toolbar__dropdown_menu li:hover {
-    background-color: #eee;
-}
-.sx-cms-toolbar__dropdown .sx-cms-toolbar__dropdown_menu > li > a {
-    padding: 3px 20px;
-}
-CSS
-);
 ?>
 
 <div class="sx-cms-toolbar__block sx-cms-toolbar__dropdown">
