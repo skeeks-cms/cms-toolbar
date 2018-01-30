@@ -1,6 +1,10 @@
 CHANGELOG
 ==============
 
+1.0.0
+---------------
+ * License update
+ 
 1.0.0-beta3
 ---------------
  * Update edit lines
