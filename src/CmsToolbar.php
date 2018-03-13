@@ -20,7 +20,10 @@ use skeeks\cms\toolbar\assets\CmsToolbarAssets;
 use skeeks\cms\toolbar\assets\CmsToolbarFancyboxAsset;
 use Yii;
 use yii\base\BootstrapInterface;
+use yii\base\Event;
 use yii\base\ViewEvent;
+use yii\base\Widget;
+use yii\base\WidgetEvent;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\Application;
@@ -198,6 +201,10 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
     {
         // delay attaching event handler to the view component after it is fully configured
         $app->on(Application::EVENT_BEFORE_REQUEST, function () use ($app) {
+
+            Event::on(Widget::class, Widget::EVENT_BEFORE_RUN, [$this, '_beforeWidgetRun']);
+            Event::on(Widget::class, Widget::EVENT_AFTER_RUN, [$this, '_afterWidgetRun']);
+
             $app->getView()->on(View::EVENT_END_BODY, [$this, 'renderToolbar']);
         });
     }
@@ -293,5 +300,58 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
         }
         Yii::warning('Не разрешено запускать панель с этого ip ' . $ip, __METHOD__);*/
         return false;
+    }
+
+
+
+
+
+
+
+    public function _beforeWidgetRun(WidgetEvent $widgetEvent)
+    {
+        $widget = $widgetEvent->sender;
+        $this->initEnabled();
+        if ($this->editWidgets == Cms::BOOL_Y && $this->enabled) {
+            $id = 'sx-infoblock-' . $widget->id;
+
+            echo Html::beginTag('div',
+                [
+                    'class' => 'skeeks-cms-toolbar-edit-view-block',
+                    'id'    => $id,
+                    'title' => \Yii::t('skeeks/cms', "Double-click on the block will open the settings manager"),
+                    'data'  =>
+                        [
+                            'id'         => $widget->id,
+                            'config-url' => 'test',
+                        ],
+                ]);
+        }
+    }
+
+    public function _afterWidgetRun(WidgetEvent $widgetEvent)
+    {
+        $widget = $widgetEvent->sender;
+        $result = '';
+
+        if ($this->editWidgets == Cms::BOOL_Y && $this->enabled) {
+            $id = 'sx-infoblock-' . $widget->id;
+
+            \Yii::$app->view->registerJs(<<<JS
+new sx.classes.toolbar.EditViewBlock({'id' : '{$id}'});
+JS
+            );
+            $callableData = [];
+
+            $callableDataInput = Html::textarea('callableData', base64_encode(serialize($callableData)), [
+                'id'    => $id . "-callable",
+                'style' => 'display: none;',
+            ]);
+
+            $result = $callableDataInput;
+            $result .= Html::endTag('div');
+        }
+
+        echo $result;
     }
 }
