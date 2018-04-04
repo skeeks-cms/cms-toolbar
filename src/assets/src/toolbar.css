@@ -44,7 +44,7 @@
 .sx-cms-toolbar__label input[type="checkbox"] {
 	margin: 0px;
 	height: 12px;
-    display: block;
+    display: inline;
 }
 
 .sx-cms-toolbar__parent_hover_active {
