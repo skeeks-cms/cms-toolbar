@@ -17,7 +17,7 @@ $clientOptionsJson = \yii\helpers\Json::encode($clientOptions);
          class="sx-cms-toolbar sx-cms-toolbar_position_top <?= \Yii::$app->cmsToolbar->isOpen == \skeeks\cms\components\Cms::BOOL_Y ? "sx-cms-toolbar_active" : "" ?>">
         <div class="sx-cms-toolbar__bar">
             <div class="sx-cms-toolbar__block sx-cms-toolbar__title sx-cms-toolbar__go_to_admin">
-                <a href="<?= \yii\helpers\Url::to(['/admin/index']); ?>"
+                <a href="<?= \yii\helpers\Url::to(['/admin/admin-index']); ?>"
                    title="<?= \Yii::t('skeeks/toolbar', 'Go to the administration panel', [],
            \Yii::$app->admin->languageCode) ?>"
                    >
