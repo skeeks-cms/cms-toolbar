@@ -28,6 +28,6 @@ $urlUserEdit = \skeeks\cms\backend\helpers\BackendUrlHelper::createByParams(['/c
 </a>-->
     <?= \yii\helpers\Html::a('<span class="sx-cms-toolbar__label">' . \Yii::t('skeeks/toolbar', 'Exit', [],
             \Yii::$app->admin->languageCode) . '</span>',
-        \skeeks\cms\backend\helpers\BackendUrlHelper::createByParams(["/admin/auth/logout"])->url, ["data-method" => "post"]) ?>
+        \skeeks\cms\backend\helpers\BackendUrlHelper::createByParams(["/admin/admin-auth/logout"])->url, ["data-method" => "post"]) ?>
 
 </div>
