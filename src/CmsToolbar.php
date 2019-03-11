@@ -21,7 +21,6 @@ use skeeks\cms\toolbar\assets\CmsToolbarFancyboxAsset;
 use Yii;
 use yii\base\BootstrapInterface;
 use yii\base\Event;
-use yii\base\ViewEvent;
 use yii\base\Widget;
 use yii\base\WidgetEvent;
 use yii\helpers\ArrayHelper;
@@ -85,11 +84,11 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
     public function attributeLabels()
     {
         return ArrayHelper::merge(parent::attributeLabels(), [
-            'enabled' => 'Активность панели управления',
-            'editWidgets' => 'Редактирование виджетов',
-            'editViewFiles' => 'Редактирование шаблонов',
-            'isOpen' => 'Открыта',
-            'enableFancyboxWindow' => 'Включить диалоговые онка панели (Fancybox)',
+            'enabled'                  => 'Активность панели управления',
+            'editWidgets'              => 'Редактирование виджетов',
+            'editViewFiles'            => 'Редактирование шаблонов',
+            'isOpen'                   => 'Открыта',
+            'enableFancyboxWindow'     => 'Включить диалоговые онка панели (Fancybox)',
             'infoblockEditBorderColor' => 'Цвет рамки вокруг инфоблока',
         ]);
     }
@@ -97,9 +96,9 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
     public function attributeHints()
     {
         return ArrayHelper::merge(parent::attributeHints(), [
-            'enabled' => 'Этот параметр отключает/включает панель для всех пользователей сайта, независимо от их прав и возможностей',
-            'isOpen' => 'По умолчанию панель будет открыта или закрыта',
-            'enableFancyboxWindow' => 'Диалоговые окна в сайтовой части будут более красивые, однако это может портить верстку (но это происходит крайне редко)',
+            'enabled'                  => 'Этот параметр отключает/включает панель для всех пользователей сайта, независимо от их прав и возможностей',
+            'isOpen'                   => 'По умолчанию панель будет открыта или закрыта',
+            'enableFancyboxWindow'     => 'Диалоговые окна в сайтовой части будут более красивые, однако это может портить верстку (но это происходит крайне редко)',
             'infoblockEditBorderColor' => 'Цвет рамки вокруг инфоблоков в режиме редактирования',
         ]);
     }
@@ -113,7 +112,7 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
         echo $form->field($this, 'enableFancyboxWindow')->widget(
             \skeeks\widget\chosen\Chosen::className(),
             [
-                'items' => \Yii::$app->formatter->booleanFormat
+                'items' => \Yii::$app->formatter->booleanFormat,
             ]
         );
 
@@ -130,7 +129,7 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
 
         echo \skeeks\cms\rbac\widgets\adminPermissionForRoles\AdminPermissionForRolesWidget::widget([
             'permissionName' => \skeeks\cms\rbac\CmsManager::PERMISSION_CONTROLL_PANEL,
-            'label' => 'Доступ к панеле разрешен',
+            'label'          => 'Доступ к панеле разрешен',
         ]);
 
         echo $form->fieldSetEnd();
@@ -183,14 +182,14 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
     protected function corePanels()
     {
         return [
-            'config' => ['class' => 'skeeks\cms\toolbar\panels\ConfigPanel'],
-            'admin' => ['class' => 'skeeks\cms\toolbar\panels\AdminPanel'],
+            'config'         => ['class' => 'skeeks\cms\toolbar\panels\ConfigPanel'],
+            'admin'          => ['class' => 'skeeks\cms\toolbar\panels\AdminPanel'],
             'admin-settings' => ['class' => 'skeeks\cms\toolbar\panels\AdminSettingsPanel'],
-            'cache' => ['class' => 'skeeks\cms\toolbar\panels\CachePanel'],
-            'user' => ['class' => 'skeeks\cms\toolbar\panels\UserPanel'],
-            'widget' => ['class' => 'skeeks\cms\toolbar\panels\WidgetPanel'],
-            'template' => ['class' => 'skeeks\cms\toolbar\panels\TemplatePanel'],
-            'edit-url' => ['class' => 'skeeks\cms\toolbar\panels\EditUrlPanel'],
+            'cache'          => ['class' => 'skeeks\cms\toolbar\panels\CachePanel'],
+            'user'           => ['class' => 'skeeks\cms\toolbar\panels\UserPanel'],
+            'widget'         => ['class' => 'skeeks\cms\toolbar\panels\WidgetPanel'],
+            'template'       => ['class' => 'skeeks\cms\toolbar\panels\TemplatePanel'],
+            'edit-url'       => ['class' => 'skeeks\cms\toolbar\panels\EditUrlPanel'],
         ];
     }
 
@@ -202,8 +201,8 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
         // delay attaching event handler to the view component after it is fully configured
         $app->on(Application::EVENT_BEFORE_REQUEST, function () use ($app) {
 
-            Event::on(Widget::class, Widget::EVENT_BEFORE_RUN, [$this, '_beforeWidgetRun']);
-            Event::on(Widget::class, Widget::EVENT_AFTER_RUN, [$this, '_afterWidgetRun']);
+            Event::on(\skeeks\cms\base\Widget::class, Widget::EVENT_BEFORE_RUN, [$this, '_beforeWidgetRun']);
+            Event::on(\skeeks\cms\base\Widget::class, Widget::EVENT_AFTER_RUN, [$this, '_afterWidgetRun']);
 
             $app->getView()->on(View::EVENT_END_BODY, [$this, 'renderToolbar']);
         });
@@ -223,18 +222,18 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
         }
 
         $clientOptions = [
-            'infoblockSettings' => [
+            'infoblockSettings'                => [
                 'border' =>
                     [
-                        'color' => $this->infoblockEditBorderColor
-                    ]
+                        'color' => $this->infoblockEditBorderColor,
+                    ],
             ],
-            'container-id' => 'sx-cms-toolbar',
-            'container-min-id' => 'sx-cms-toolbar-min',
-            'isOpen' => (bool)($this->isOpen == Cms::BOOL_Y),
-            'backend-url-triggerEditWidgets' => UrlHelper::construct('cms/toolbar/trigger-edit-widgets')->enableAdmin()->toString(),
+            'container-id'                     => 'sx-cms-toolbar',
+            'container-min-id'                 => 'sx-cms-toolbar-min',
+            'isOpen'                           => (bool)($this->isOpen == Cms::BOOL_Y),
+            'backend-url-triggerEditWidgets'   => UrlHelper::construct('cms/toolbar/trigger-edit-widgets')->enableAdmin()->toString(),
             'backend-url-triggerEditViewFiles' => UrlHelper::construct('cms/toolbar/trigger-edit-view-files')->enableAdmin()->toString(),
-            'backend-url-triggerIsOpen' => UrlHelper::construct('cms/toolbar/trigger-is-open')->enableAdmin()->toString()
+            'backend-url-triggerIsOpen'        => UrlHelper::construct('cms/toolbar/trigger-is-open')->enableAdmin()->toString(),
         ];
 
         //echo '<div id="sx-cms-toolbar" style="display:none"></div>';
@@ -248,7 +247,7 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
         }
 
         echo $view->render('@skeeks/cms/toolbar/views/cms-toolbar', [
-            'panels' => $this->panels,
+            'panels'        => $this->panels,
             'clientOptions' => $clientOptions,
         ]);
     }
@@ -303,55 +302,52 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
     }
 
 
+    static public $widgetBeforeRuns = [];
 
-
-
-
-
-    public function _beforeWidgetRun(WidgetEvent $widgetEvent)
+    public function _beforeWidgetRun(WidgetEvent $event)
     {
-        $widget = $widgetEvent->sender;
+        $widget = $event->sender;
+        $event->isValid = true;
         $this->initEnabled();
-        if ($this->editWidgets == Cms::BOOL_Y && $this->enabled) {
+
+        if ($this->editWidgets == Cms::BOOL_Y && $this->enabled && $widget instanceof \skeeks\cms\base\Widget) {
             $id = 'sx-infoblock-' . $widget->id;
 
-            echo Html::beginTag('div',
-                [
-                    'class' => 'skeeks-cms-toolbar-edit-view-block',
-                    'id'    => $id,
-                    'title' => \Yii::t('skeeks/cms', "Double-click on the block will open the settings manager"),
-                    'data'  =>
-                        [
-                            'id'         => $widget->id,
-                            'config-url' => 'test',
-                        ],
-                ]);
+            static::$widgetBeforeRuns[$widget->id] = Html::beginTag('div', [
+                'class' => 'skeeks-cms-toolbar-edit-view-block',
+                'id'    => $id,
+                'title' => \Yii::t('skeeks/cms', "Double-click on the block will open the settings manager"),
+                'data'  => [
+                    'id'         => $widget->id,
+                    'config-url' => $widget->getCallableEditUrl(),
+                ],
+            ]);
         }
     }
 
-    public function _afterWidgetRun(WidgetEvent $widgetEvent)
+    public function _afterWidgetRun(WidgetEvent $event)
     {
-        $widget = $widgetEvent->sender;
-        $result = '';
+        $widget = $event->sender;
+        if ($this->editWidgets == Cms::BOOL_Y && $this->enabled && $widget instanceof \skeeks\cms\base\Widget) {
+            $id = 'sx-infoblock-'.$widget->id;
 
-        if ($this->editWidgets == Cms::BOOL_Y && $this->enabled) {
-            $id = 'sx-infoblock-' . $widget->id;
-
-            \Yii::$app->view->registerJs(<<<JS
+            $widget->view->registerJs(<<<JS
 new sx.classes.toolbar.EditViewBlock({'id' : '{$id}'});
 JS
             );
-            $callableData = [];
+            $callableData = $widget->callableData;
 
             $callableDataInput = Html::textarea('callableData', base64_encode(serialize($callableData)), [
-                'id'    => $id . "-callable",
+                'id'    => $widget->callableId,
                 'style' => 'display: none;',
             ]);
 
-            $result = $callableDataInput;
+            $result = isset(static::$widgetBeforeRuns[$widget->id]) ? static::$widgetBeforeRuns[$widget->id] : "";
+            $result .= $event->result;
+            $result .= $callableDataInput;
             $result .= Html::endTag('div');
-        }
 
-        echo $result;
+            $event->result = $result;
+        }
     }
 }

@@ -1,6 +1,10 @@
 CHANGELOG
 ==============
 
+1.0.1.pre
+---------------
+ * Update cms widgets
+ 
 1.0.0.2
 ---------------
  * Fixed css
