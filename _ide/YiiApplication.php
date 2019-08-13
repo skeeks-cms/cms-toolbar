@@ -12,9 +12,10 @@
 namespace yii\web;
 
 use skeeks\cms\backend\BackendComponent;
+use skeeks\cms\toolbar\CmsToolbar;
 
 /**
- * @property BackendComponent $cmsToolbar
+ * @property CmsToolbar $cmsToolbar
  * Class Application
  * @package yii\web
  */
