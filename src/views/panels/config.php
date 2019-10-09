@@ -9,9 +9,9 @@
 /* @var $panel \skeeks\cms\toolbar\pnales\ConfigPanel */
 ?>
 <div class="sx-cms-toolbar__block">
-    <a href="<?= \Yii::$app->cms->descriptor->homepage; ?>"
+    <a href="<?= \Yii::$app->cms->homePage; ?>"
        title="<?= \Yii::t('skeeks/toolbar', 'The current version {cms} ', ['cms' => 'SkeekS SMS'],
-           \Yii::$app->admin->languageCode) ?> <?= \Yii::$app->cms->descriptor->version; ?>" target="_blank">
-        <span class="yii-debug-toolbar__label"><?= \Yii::$app->cms->descriptor->version; ?></span>
+           \Yii::$app->admin->languageCode) ?> <?= \Yii::$app->cms->version; ?>" target="_blank">
+        <span class="yii-debug-toolbar__label"><?= \Yii::$app->cms->version; ?></span>
     </a>
 </div>
