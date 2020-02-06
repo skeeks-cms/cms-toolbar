@@ -103,36 +103,38 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
         ]);
     }
 
-    public function renderConfigForm(ActiveForm $form)
+    public function renderConfigFormFields(ActiveForm $form)
     {
-        echo $form->fieldSet(\Yii::t('skeeks/cms', 'Main'));
+        $result = $form->fieldSet(\Yii::t('skeeks/cms', 'Main'));
 
-        echo $form->field($this, 'enabled')->checkbox();
-        echo $form->fieldCheckboxBoolean($this, 'isOpen');
-        echo $form->field($this, 'enableFancyboxWindow')->widget(
+        $result .= $form->field($this, 'enabled')->checkbox();
+        $result .= $form->fieldCheckboxBoolean($this, 'isOpen');
+        $result .= $form->field($this, 'enableFancyboxWindow')->widget(
             \skeeks\widget\chosen\Chosen::className(),
             [
                 'items' => \Yii::$app->formatter->booleanFormat,
             ]
         );
 
-        echo $form->fieldRadioListBoolean($this, 'editWidgets');
-        echo $form->fieldRadioListBoolean($this, 'editViewFiles');
+        $result .= $form->fieldRadioListBoolean($this, 'editWidgets');
+        $result .= $form->fieldRadioListBoolean($this, 'editViewFiles');
 
-        echo $form->field($this, 'infoblockEditBorderColor')->widget(
+        $result .= $form->field($this, 'infoblockEditBorderColor')->widget(
             \skeeks\cms\widgets\ColorInput::className()
         );
 
-        echo $form->fieldSetEnd();
+        $result .= $form->fieldSetEnd();
 
-        echo $form->fieldSet(\Yii::t('skeeks/cms', 'Access'));
+        $result .= $form->fieldSet(\Yii::t('skeeks/cms', 'Access'));
 
-        echo \skeeks\cms\rbac\widgets\adminPermissionForRoles\AdminPermissionForRolesWidget::widget([
+        $result .= \skeeks\cms\rbac\widgets\adminPermissionForRoles\AdminPermissionForRolesWidget::widget([
             'permissionName' => \skeeks\cms\rbac\CmsManager::PERMISSION_CONTROLL_PANEL,
             'label'          => 'Доступ к панеле разрешен',
         ]);
 
-        echo $form->fieldSetEnd();
+        $result .= $form->fieldSetEnd();
+
+        return $result;
     }
 
     public function init()

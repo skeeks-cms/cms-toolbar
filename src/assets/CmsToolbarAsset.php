@@ -9,6 +9,7 @@
 namespace skeeks\cms\toolbar\assets;
 
 use skeeks\cms\base\AssetBundle;
+use skeeks\sx\assets\Custom;
 
 /**
  * Class CmsToolbarAsset
@@ -24,15 +25,14 @@ class CmsToolbarAsset extends AssetBundle
         'toolbar.css',
     ];
 
-    public $js =
-        [
-            'classes/window.js',
-            'classes/dialog.js',
-            'classes/edit-view-block.js',
-            'toolbar.js',
-        ];
+    public $js = [
+        'classes/window.js',
+        'classes/dialog.js',
+        'classes/edit-view-block.js',
+        'toolbar.js',
+    ];
 
     public $depends = [
-        'skeeks\sx\assets\Core',
+        Custom::class
     ];
 }
