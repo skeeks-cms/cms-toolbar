@@ -11,6 +11,7 @@ namespace skeeks\cms\toolbar;
 use skeeks\cms\actions\ViewModelAction;
 use skeeks\cms\backend\BackendComponent;
 use skeeks\cms\backend\BackendController;
+use skeeks\cms\backend\widgets\ActiveFormBackend;
 use skeeks\cms\components\Cms;
 use skeeks\cms\helpers\UrlHelper;
 use skeeks\cms\models\helpers\Tree;
@@ -102,7 +103,7 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
             'infoblockEditBorderColor' => 'Цвет рамки вокруг инфоблоков в режиме редактирования',
         ]);
     }
-
+    
     public function renderConfigFormFields(ActiveForm $form)
     {
         $result = $form->fieldSet(\Yii::t('skeeks/cms', 'Main'));
