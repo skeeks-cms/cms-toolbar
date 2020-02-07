@@ -11,6 +11,7 @@ namespace skeeks\cms\toolbar;
 use skeeks\cms\actions\ViewModelAction;
 use skeeks\cms\backend\BackendComponent;
 use skeeks\cms\backend\BackendController;
+use skeeks\cms\backend\widgets\ActiveFormBackend;
 use skeeks\cms\components\Cms;
 use skeeks\cms\helpers\UrlHelper;
 use skeeks\cms\models\helpers\Tree;
@@ -103,6 +104,14 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
         ]);
     }
 
+    /**
+     * @return ActiveForm
+     */
+    /*public function beginConfigForm()
+    {
+        return ActiveFormBackend::begin();
+    }*/
+    
     public function renderConfigFormFields(ActiveForm $form)
     {
         $result = $form->fieldSet(\Yii::t('skeeks/cms', 'Main'));
@@ -120,13 +129,13 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
         );
 
         $result .= $form->field($this, 'editWidgets')->checkbox([
-    'uncheck' => \skeeks\cms\components\Cms::BOOL_N,
-    'value'   => \skeeks\cms\components\Cms::BOOL_Y,
-]);
-        $result .= $form->field($this, 'editViewFiles')->checkbox([
-    'uncheck' => \skeeks\cms\components\Cms::BOOL_N,
-    'value'   => \skeeks\cms\components\Cms::BOOL_Y,
-]);
+            'uncheck' => \skeeks\cms\components\Cms::BOOL_N,
+            'value'   => \skeeks\cms\components\Cms::BOOL_Y,
+        ]);
+                $result .= $form->field($this, 'editViewFiles')->checkbox([
+            'uncheck' => \skeeks\cms\components\Cms::BOOL_N,
+            'value'   => \skeeks\cms\components\Cms::BOOL_Y,
+        ]);
 
         $result .= $form->field($this, 'infoblockEditBorderColor')->widget(
             \skeeks\cms\widgets\ColorInput::className()
