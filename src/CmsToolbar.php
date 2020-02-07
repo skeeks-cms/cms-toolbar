@@ -11,7 +11,6 @@ namespace skeeks\cms\toolbar;
 use skeeks\cms\actions\ViewModelAction;
 use skeeks\cms\backend\BackendComponent;
 use skeeks\cms\backend\BackendController;
-use skeeks\cms\backend\widgets\ActiveFormBackend;
 use skeeks\cms\components\Cms;
 use skeeks\cms\helpers\UrlHelper;
 use skeeks\cms\models\helpers\Tree;
@@ -103,13 +102,16 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
             'infoblockEditBorderColor' => 'Цвет рамки вокруг инфоблоков в режиме редактирования',
         ]);
     }
-    
+
     public function renderConfigFormFields(ActiveForm $form)
     {
         $result = $form->fieldSet(\Yii::t('skeeks/cms', 'Main'));
 
         $result .= $form->field($this, 'enabled')->checkbox();
-        $result .= $form->fieldCheckboxBoolean($this, 'isOpen');
+        $result .= $form->field($this, 'isOpen')->checkbox([
+            'uncheck' => \skeeks\cms\components\Cms::BOOL_N,
+            'value'   => \skeeks\cms\components\Cms::BOOL_Y,
+        ]);
         $result .= $form->field($this, 'enableFancyboxWindow')->widget(
             \skeeks\widget\chosen\Chosen::className(),
             [
@@ -117,8 +119,14 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
             ]
         );
 
-        $result .= $form->fieldRadioListBoolean($this, 'editWidgets');
-        $result .= $form->fieldRadioListBoolean($this, 'editViewFiles');
+        $result .= $form->field($this, 'editWidgets')->checkbox([
+    'uncheck' => \skeeks\cms\components\Cms::BOOL_N,
+    'value'   => \skeeks\cms\components\Cms::BOOL_Y,
+]);
+        $result .= $form->field($this, 'editViewFiles')->checkbox([
+    'uncheck' => \skeeks\cms\components\Cms::BOOL_N,
+    'value'   => \skeeks\cms\components\Cms::BOOL_Y,
+]);
 
         $result .= $form->field($this, 'infoblockEditBorderColor')->widget(
             \skeeks\cms\widgets\ColorInput::className()
@@ -314,7 +322,7 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
         $this->initEnabled();
 
         if ($this->editWidgets == Cms::BOOL_Y && $this->enabled && $widget instanceof \skeeks\cms\base\Widget) {
-            $id = 'sx-infoblock-' . $widget->id;
+            $id = 'sx-infoblock-'.$widget->id;
 
             static::$widgetBeforeRuns[$widget->id] = Html::beginTag('div', [
                 'class' => 'skeeks-cms-toolbar-edit-view-block',
