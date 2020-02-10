@@ -71,6 +71,9 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
     {
         return array_merge(parent::descriptorConfig(), [
             'name' => \Yii::t('skeeks/toolbar', 'Quick control panel'),
+            'image' => [
+                CmsToolbarAsset::class, 'icons/largeicon-toolbar.png'
+            ],
         ]);
     }
 
