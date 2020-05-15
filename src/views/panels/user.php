@@ -20,7 +20,7 @@ $urlUserEdit = \skeeks\cms\backend\helpers\BackendUrlHelper::createByParams(['/c
         <div class="sx-cms-toolbar__label sx-cms-toolbar__label_info">
             <img src="<?= \skeeks\cms\helpers\Image::getSrc(\Yii::$app->user->identity->avatarSrc); ?>"
                  style="border: 1px solid silver; height: 16px;"/>
-            <?= \Yii::$app->user->identity->displayName; ?>
+            <?= \Yii::$app->user->identity->shortDisplayName; ?>
         </div>
     </a>
     <!--<a href="<? /*= $urlEditModel; */ ?>" onclick="new sx.classes.toolbar.Dialog('<? /*= $urlEditModel; */ ?>'); return false;" title="Выход">

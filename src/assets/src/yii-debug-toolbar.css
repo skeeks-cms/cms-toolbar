@@ -113,7 +113,7 @@
 .sx-cms-toolbar__block a {
     display: inline-block;
     text-decoration: none;
-    color: black;
+    color: black !important;
 }
 
 .sx-cms-toolbar__block img {

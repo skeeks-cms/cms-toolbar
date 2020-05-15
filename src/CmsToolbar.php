@@ -221,11 +221,12 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
      */
     public function bootstrap($app)
     {
+        Yii::info("cms-toolbar-init");
         // delay attaching event handler to the view component after it is fully configured
         $app->on(Application::EVENT_BEFORE_REQUEST, function () use ($app) {
 
-            Event::on(\skeeks\cms\base\Widget::class, Widget::EVENT_BEFORE_RUN, [$this, '_beforeWidgetRun']);
-            Event::on(\skeeks\cms\base\Widget::class, Widget::EVENT_AFTER_RUN, [$this, '_afterWidgetRun']);
+            //Event::on(\skeeks\cms\base\Widget::class, Widget::EVENT_BEFORE_RUN, [$this, '_beforeWidgetRun']);
+            //Event::on(\skeeks\cms\base\Widget::class, Widget::EVENT_AFTER_RUN, [$this, '_afterWidgetRun']);
 
             $app->getView()->on(View::EVENT_END_BODY, [$this, 'renderToolbar']);
         });
@@ -325,52 +326,5 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
     }
 
 
-    static public $widgetBeforeRuns = [];
-
-    public function _beforeWidgetRun(WidgetEvent $event)
-    {
-        $widget = $event->sender;
-        $event->isValid = true;
-        $this->initEnabled();
-
-        if ($this->editWidgets == Cms::BOOL_Y && $this->enabled && $widget instanceof \skeeks\cms\base\Widget) {
-            $id = 'sx-infoblock-'.$widget->id;
-
-            static::$widgetBeforeRuns[$widget->id] = Html::beginTag('div', [
-                'class' => 'skeeks-cms-toolbar-edit-view-block',
-                'id'    => $id,
-                'title' => \Yii::t('skeeks/cms', "Double-click on the block will open the settings manager"),
-                'data'  => [
-                    'id'         => $widget->id,
-                    'config-url' => $widget->getCallableEditUrl(),
-                ],
-            ]);
-        }
-    }
-
-    public function _afterWidgetRun(WidgetEvent $event)
-    {
-        $widget = $event->sender;
-        if ($this->editWidgets == Cms::BOOL_Y && $this->enabled && $widget instanceof \skeeks\cms\base\Widget) {
-            $id = 'sx-infoblock-'.$widget->id;
-
-            $widget->view->registerJs(<<<JS
-new sx.classes.toolbar.EditViewBlock({'id' : '{$id}'});
-JS
-            );
-            $callableData = $widget->callableData;
-
-            $callableDataInput = Html::textarea('callableData', base64_encode(serialize($callableData)), [
-                'id'    => $widget->callableId,
-                'style' => 'display: none;',
-            ]);
-
-            $result = isset(static::$widgetBeforeRuns[$widget->id]) ? static::$widgetBeforeRuns[$widget->id] : "";
-            $result .= $event->result;
-            $result .= $callableDataInput;
-            $result .= Html::endTag('div');
-
-            $event->result = $result;
-        }
-    }
+    
 }

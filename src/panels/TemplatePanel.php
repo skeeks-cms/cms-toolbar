@@ -44,7 +44,6 @@ class TemplatePanel extends CmsToolbarPanel
                     return;
                 }
                 $this->_view_files[] = $e->viewFile;
-                $this->toolbar->viewFiles[$id] = $id;
 
                 $e->sender->registerJs(<<<JS
 new sx.classes.toolbar.EditViewBlock({'id' : '{$id}'});

@@ -30,7 +30,8 @@
                 <? foreach ($files as $viewFile) : ?>
                     <li><a
                                 href="<?= \skeeks\cms\backend\helpers\BackendUrlHelper::createByParams(['/cms/admin-tools/view-file-edit', 'root-file' => $viewFile])->url; ?>"
-                                onclick="new sx.classes.toolbar.Dialog('<?= \skeeks\cms\backend\helpers\BackendUrlHelper::createByParams(['/cms/admin-tools/view-file-edit', 'root-file' => $viewFile])->enableEmptyLayout()->url; ?>'); return false;"
+                                onclick="new sx.classes.toolbar.Dialog('<?= \skeeks\cms\backend\helpers\BackendUrlHelper::createByParams(['/cms/admin-tools/view-file-edit', 'root-file' => $viewFile])
+                                    ->enableEmptyLayout()->url; ?>'); return false;"
                                 target="_blank"><?= $viewFile; ?></a></li>
                 <? endforeach; ?>
             </ul>

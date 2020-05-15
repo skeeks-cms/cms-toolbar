@@ -6,11 +6,11 @@
  * @date 22.11.2017
  */
 /* @var $this yii\web\View */
-/* @var $panel \skeeks\cms\toolbar\pnales\ConfigPanel */
+/* @var $panel \skeeks\cms\toolbar\panels\WidgetPanel */
 ?>
 
-<div class="sx-cms-toolbar__block">
-    <div class="sx-cms-toolbar__label <?= \Yii::$app->cmsToolbar->editWidgets == \skeeks\cms\components\Cms::BOOL_Y ? "sx-cms-toolbar__label_success" : ""; ?>">
+<div class="sx-cms-toolbar__block sx-cms-toolbar__dropdown">
+    <div class="sx-cms-toolbar__label sx-cms-toolbar__dropdown_trigger <?= \Yii::$app->cmsToolbar->editWidgets == \skeeks\cms\components\Cms::BOOL_Y ? "sx-cms-toolbar__label_success" : ""; ?>">
         <input type="checkbox" value="1"
                onclick="sx.Toolbar.triggerEditWidgets();" <?= \Yii::$app->cmsToolbar->editWidgets == \skeeks\cms\components\Cms::BOOL_Y ? "checked" : ""; ?>/>
         <img height="21"
@@ -19,6 +19,27 @@
         <span class="sx-cms-toolbar__parent_hover_active">
             <?= \Yii::t('skeeks/toolbar', 'Editing widgets', [], \Yii::$app->admin->languageCode) ?>
         </span>
+        
+        <? if ($panel->widgetsForEdit) : ?>
+            <? $widgets = $panel->widgetsForEdit; ?>
+            <span class="">
+                <?= count($widgets); ?>
+            </span>
+
+            <ul class="sx-cms-toolbar__dropdown_menu">
+                <?
+                /**
+                 * @var \skeeks\cms\base\Widget $widget 
+                 */
+                foreach ($widgets as $widget) : ?>
+                    <li>
+                        <a href="#" onclick="$('#sx-infoblock-<?= $widget->id; ?>').trigger('edit'); return false;"><?= $widget->descriptor->name; ?> <small style="color: gray;"><?= $widget->namespace; ?></small></a>
+                    </li>
+                <? endforeach; ?>
+            </ul>
+
+        <? endif; ?>
+        
     </div>
 </div>
 

@@ -29,6 +29,10 @@
                 self.adjustWrapper();
             });
 
+            this.jWrapper.on("edit", function() {
+                self.goEdit();
+            })
+                
             this.jWrapper.on("dblclick", function()
             {
                 self.goEdit();
