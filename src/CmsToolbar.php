@@ -146,14 +146,6 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
 
         $result .= $form->fieldSetEnd();
 
-        $result .= $form->fieldSet(\Yii::t('skeeks/cms', 'Access'));
-
-        $result .= \skeeks\cms\rbac\widgets\adminPermissionForRoles\AdminPermissionForRolesWidget::widget([
-            'permissionName' => \skeeks\cms\rbac\CmsManager::PERMISSION_CONTROLL_PANEL,
-            'label'          => 'Доступ к панеле разрешен',
-        ]);
-
-        $result .= $form->fieldSetEnd();
 
         return $result;
     }
@@ -308,7 +300,7 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
     protected function checkAccess()
     {
         //\Yii::$app->user->can(CmsManager::PERMISSION_ADMIN_ACCESS) version > 2.0.13
-        if (\Yii::$app->user->can(CmsManager::PERMISSION_CONTROLL_PANEL)) {
+        if (\Yii::$app->user->can(CmsManager::PERMISSION_ADMIN_ACCESS)) {
             if (!BackendComponent::getCurrent() && (!\Yii::$app->controller instanceof BackendController) && !in_array(\Yii::$app->controller->module->id,
                     ['debug', 'gii'])) {
                 return true;
