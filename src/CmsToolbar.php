@@ -19,6 +19,7 @@ use skeeks\cms\rbac\CmsManager;
 use skeeks\cms\toolbar\assets\CmsToolbarAsset;
 use skeeks\cms\toolbar\assets\CmsToolbarAssets;
 use skeeks\cms\toolbar\assets\CmsToolbarFancyboxAsset;
+use skeeks\cms\widgets\Select2;
 use Yii;
 use yii\base\BootstrapInterface;
 use yii\base\Event;
@@ -117,20 +118,26 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
     
     public function renderConfigFormFields(ActiveForm $form)
     {
-        $result = $form->fieldSet(\Yii::t('skeeks/cms', 'Main'));
 
-        $result .= $form->field($this, 'enabled')->checkbox();
+        $result = $form->field($this, 'enabled')->checkbox();
         $result .= $form->field($this, 'isOpen')->checkbox([
             'uncheck' => \skeeks\cms\components\Cms::BOOL_N,
             'value'   => \skeeks\cms\components\Cms::BOOL_Y,
         ]);
-        $result .= $form->field($this, 'enableFancyboxWindow')->widget(
+        /*$result .= $form->field($this, 'enableFancyboxWindow')->widget(
             \skeeks\widget\chosen\Chosen::className(),
             [
                 'items' => \Yii::$app->formatter->booleanFormat,
             ]
-        );
+        );*/
 
+        /*$result .= $form->field($this, 'enableFancyboxWindow')->widget(
+            Select2::class, [
+                'data' => \Yii::$app->formatter->booleanFormat,
+            ]
+        );*/
+
+        $result .= $form->field($this, 'enableFancyboxWindow')->checkbox();
         $result .= $form->field($this, 'editWidgets')->checkbox([
             'uncheck' => \skeeks\cms\components\Cms::BOOL_N,
             'value'   => \skeeks\cms\components\Cms::BOOL_Y,
@@ -144,7 +151,6 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
             \skeeks\cms\widgets\ColorInput::className()
         );
 
-        $result .= $form->fieldSetEnd();
 
 
         return $result;
