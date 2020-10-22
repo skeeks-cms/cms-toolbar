@@ -219,7 +219,7 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
      */
     public function bootstrap($app)
     {
-        Yii::info("cms-toolbar-init");
+        Yii::info("cms-toolbar-init", self::class);
         // delay attaching event handler to the view component after it is fully configured
         $app->on(Application::EVENT_BEFORE_REQUEST, function () use ($app) {
 
