@@ -24,7 +24,7 @@
 
 <?
 $clearCacheOptions = \yii\helpers\Json::encode([
-    'backend' => \skeeks\cms\backend\helpers\BackendUrlHelper::createByParams(['/cms/admin-clear/index'])->url
+    'backend' => \skeeks\cms\backend\helpers\BackendUrlHelper::createByParams(['/cms/admin-cache/invalidate'])->url
 ]);
 
 $this->registerJs(<<<JS
