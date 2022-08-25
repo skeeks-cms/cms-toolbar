@@ -158,6 +158,10 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
 
     public function init()
     {
+        if (\Yii::$app->user->isGuest) {
+            return false;
+        }
+
         parent::init();
 
         if (Yii::$app instanceof \yii\web\Application) {
