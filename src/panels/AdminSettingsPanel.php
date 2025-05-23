@@ -8,6 +8,7 @@
 
 namespace skeeks\cms\toolbar\panels;
 
+use skeeks\cms\rbac\CmsManager;
 use skeeks\cms\toolbar\CmsToolbarPanel;
 use Yii;
 
@@ -38,6 +39,6 @@ class AdminSettingsPanel extends CmsToolbarPanel
      */
     public function isEnabled()
     {
-        return \Yii::$app->user->can('cms/admin-settings');
+        return \Yii::$app->user->can(CmsManager::PERMISSION_ROLE_ADMIN_ACCESS);
     }
 }

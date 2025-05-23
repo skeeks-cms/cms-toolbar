@@ -9,7 +9,7 @@
 /* @var $panel \skeeks\cms\toolbar\panels\TemplatePanel */
 ?>
 
-<div class="sx-cms-toolbar__block sx-cms-toolbar__dropdown">
+<div class="sx-cms-toolbar__block sx-cms-toolbar__block_viewfile sx-cms-toolbar__dropdown">
     <nav class="sx-cms-toolbar__label sx-cms-toolbar__dropdown_trigger <?= \Yii::$app->cmsToolbar->editViewFiles == \skeeks\cms\components\Cms::BOOL_Y ? "sx-cms-toolbar__label_success" : ""; ?>">
         <input type="checkbox" value="1"
                onclick="sx.Toolbar.triggerEditViewFiles();" <?= \Yii::$app->cmsToolbar->editViewFiles == \skeeks\cms\components\Cms::BOOL_Y ? "checked" : ""; ?>/>

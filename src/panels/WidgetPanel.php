@@ -10,6 +10,7 @@ namespace skeeks\cms\toolbar\panels;
 
 use skeeks\cms\backend\BackendController;
 use skeeks\cms\components\Cms;
+use skeeks\cms\rbac\CmsManager;
 use skeeks\cms\toolbar\CmsToolbarPanel;
 use Yii;
 use yii\base\Event;
@@ -55,7 +56,7 @@ class WidgetPanel extends CmsToolbarPanel
      */
     public function isEnabled()
     {
-        return \Yii::$app->user->can('cms/admin-settings');
+        return \Yii::$app->user->can(CmsManager::PERMISSION_ROLE_ADMIN_ACCESS);
     }
     
     public $widgetsForEdit = [];

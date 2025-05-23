@@ -9,7 +9,7 @@
 /* @var $panel \skeeks\cms\toolbar\panels\WidgetPanel */
 ?>
 
-<div class="sx-cms-toolbar__block sx-cms-toolbar__dropdown">
+<div class="sx-cms-toolbar__block sx-cms-toolbar__block_widget sx-cms-toolbar__dropdown">
     <div class="sx-cms-toolbar__label sx-cms-toolbar__dropdown_trigger <?= \Yii::$app->cmsToolbar->editWidgets == \skeeks\cms\components\Cms::BOOL_Y ? "sx-cms-toolbar__label_success" : ""; ?>">
         <input type="checkbox" value="1"
                onclick="sx.Toolbar.triggerEditWidgets();" <?= \Yii::$app->cmsToolbar->editWidgets == \skeeks\cms\components\Cms::BOOL_Y ? "checked" : ""; ?>/>
