@@ -257,9 +257,9 @@ class CmsToolbar extends \skeeks\cms\base\Component implements BootstrapInterfac
             'container-id'                     => 'sx-cms-toolbar',
             'container-min-id'                 => 'sx-cms-toolbar-min',
             'isOpen'                           => (bool)($this->isOpen == Cms::BOOL_Y),
-            'backend-url-triggerEditWidgets'   => UrlHelper::construct('cms/toolbar/trigger-edit-widgets')->enableAdmin()->toString(),
-            'backend-url-triggerEditViewFiles' => UrlHelper::construct('cms/toolbar/trigger-edit-view-files')->enableAdmin()->toString(),
-            'backend-url-triggerIsOpen'        => UrlHelper::construct('cms/toolbar/trigger-is-open')->enableAdmin()->toString(),
+            'backend-url-triggerEditWidgets'   => UrlHelper::construct('/cms/toolbar/trigger-edit-widgets')->enableAdmin()->toString(),
+            'backend-url-triggerEditViewFiles' => UrlHelper::construct('/cms/toolbar/trigger-edit-view-files')->enableAdmin()->toString(),
+            'backend-url-triggerIsOpen'        => UrlHelper::construct('/cms/toolbar/trigger-is-open')->enableAdmin()->toString(),
         ];
 
         //echo '<div id="sx-cms-toolbar" style="display:none"></div>';
